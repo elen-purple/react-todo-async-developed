@@ -9,13 +9,13 @@ export const getFilteredTasks = createSelector(
   [getTasks, getFilters],
   (tasks, filters) => {
     if (filters.status === statusFilters.all) {
-      return tasks;
+      return tasks.items;
     } else if (filters.status === statusFilters.active) {
       return tasks.items.filter(({ completed }) => !completed);
     } else if (filters.status === statusFilters.completed) {
       return tasks.items.filter(({ completed }) => completed);
     } else {
-      return tasks;
+      return tasks.items;
     }
   },
 );
