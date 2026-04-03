@@ -1,18 +1,20 @@
 import { useSelector } from "react-redux";
-import { getTasks } from "../../redux/selectors";
 import { Section } from "../FilterSection/FilterSectionStyled";
 import { Span, Text } from "./StatisticsSectionStyled";
+import { getAllTasks } from "../../redux/selectors";
+import { getCompletedTasks } from "../../redux/selectors";
 
 export const StatisticsSection = () => {
-  const tasks = useSelector(getTasks);
+  const allTasks = useSelector(getAllTasks);
+  const completedTasks = useSelector(getCompletedTasks);
   return (
     <Section>
       <Text>
-        All: <Span>{tasks.items.length}</Span>
+        All: <Span>{allTasks}</Span>
       </Text>
       <Text>
-        Completed:{" "}
-        <Span>{tasks.items.filter((item) => item.completed).length}</Span>
+        Completed:
+        <Span>{completedTasks}</Span>
       </Text>
     </Section>
   );

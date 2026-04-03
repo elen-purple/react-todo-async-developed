@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getFilters, getTasks } from "../../redux/selectors";
 import { TasksItem } from "../TasksItem/TasksItem";
-import { statusFilters } from "../../redux/constants";
 import { Section } from "../FilterSection/FilterSectionStyled";
 import { List } from "./TasksListStyled";
 import { deleteTask, fetchTasks } from "../../redux/operations";
 import { useEffect } from "react";
+import { getFilteredTasks } from "../../redux/selectors";
 
 export const TasksList = () => {
-  const tasks = useSelector(getTasks);
-  const filters = useSelector(getFilters);
+  const filteredTasks = useSelector(getFilteredTasks);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,40 +23,9 @@ export const TasksList = () => {
           }
         }}
       >
-        {filters.status === statusFilters.all
-          ? tasks.items.map(({ id, text, completed }) => (
-              <TasksItem key={id} id={id} text={text} completed={completed} />
-            ))
-          : filters.status === statusFilters.active
-            ? tasks.items
-                .filter(({ completed }) => !completed)
-                .map(({ id, text, completed }) => (
-                  <TasksItem
-                    key={id}
-                    id={id}
-                    text={text}
-                    completed={completed}
-                  />
-                ))
-            : filters.status === statusFilters.completed
-              ? tasks.items
-                  .filter(({ completed }) => completed)
-                  .map(({ id, text, completed }) => (
-                    <TasksItem
-                      key={id}
-                      id={id}
-                      text={text}
-                      completed={completed}
-                    />
-                  ))
-              : tasks.items.map(({ id, text, completed }) => (
-                  <TasksItem
-                    key={id}
-                    id={id}
-                    text={text}
-                    completed={completed}
-                  />
-                ))}
+        {filteredTasks.map(({ id, text, completed }) => (
+          <TasksItem key={id} id={id} text={text} completed={completed} />
+        ))}
       </List>
     </Section>
   );
